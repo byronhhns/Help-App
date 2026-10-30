@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Cache-control" content="no-cache">
+    
+    <style>
+      .form-check{margin-top:10px;margin-bottom:1px;}
+      $enable-cssgrid: true
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://kit.fontawesome.com/2ea27fbf49.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+    </script>
+  </head>
+  <body>
+
+
+    <!-- Optional JavaScript -->
+    <script src="./app.js" crossorigin="anonymous"></script>
+    
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <div id="spinner" style="z-index:1000" class="pt-5 align-middle text-center position-fixed w-100 h-100 bg-success text-dark bg-opacity-10">
+        <div class="spinner-border position-fixed top-50" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>  
+
+    <div class="container">
+      <div id="hhh-logo" class="py-4"><a href="https://www.helpinghandshealthcare.ca"><img src="https://static.wixstatic.com/media/bb81df_a464347596e749c09bbe17f34df247c7~mv2.png/v1/fill/w_329,h_111,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/HHH_logo_RGB.png" alt="helping hands healthcare logo" style="width:329px;height:111px;object-fit:cover" width="329" height="111" srcset="https://static.wixstatic.com/media/bb81df_a464347596e749c09bbe17f34df247c7~mv2.png/v1/fill/w_329,h_111,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/HHH_logo_RGB.png 1x, https://static.wixstatic.com/media/bb81df_a464347596e749c09bbe17f34df247c7~mv2.png/v1/fill/w_658,h_222,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/HHH_logo_RGB.png 2x" fetchpriority="high"></wow-image></a></div>
+      <div id="email_lookup" class="container-fluid bg-body-secondary rounded border border-primary m-1 p-1">
+        <form action="javascript:get_auth_code()" class="requires-validation" novalidate>
+          <div class="m-1">
+            Please enter the email address you use to submit your timesheet.
+          </div>
+          <div class="m-1">
+            <input class="form-control" type="email" name="email" placeholder="example: account@domain.com" id="emailAddress" required>
+            <div class="valid-feedback">Email field is valid!</div>
+            <div class="invalid-feedback">Please enter a valid email address.</div>
+          </div>
+          <div class="form-button mt-3">
+            <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div> <!-- container-fluid -->
+
+      <div id="auth" class="container-fluid bg-body-secondary rounded border border-primary m-1 p-1">
+        <form action="javascript:authenticate_user()" class="requires-validation" novalidate>
+          <div class="mb-3">
+            <label for="token" class="form-label">A code was sent to <span id="destination_email_address"></span>, please enter the code here to authenticate.</label>
+            <input type="text" class="form-control" name="token" id="token" />
+            <div class="invalid-feedback">
+              Please enter a message in the textarea.
+            </div>            
+          </div>
+          <button  class="btn btn-primary" type="submit">Check code</button>
+        </form>
+      </div>
+
+      <div id="help_questions" class="container-fluid bg-body-secondary rounded border border-primary  m-1 p-1">
+        <div id="my_questions" class="bg-light rounded border border-secondary p-3 mt-1">
+          <p>Hi <span id="personnel_name"></span>, how may we help you?</p>
+        </div>
+      </div> <!-- help-fluid -->
+
+      <div id="help_answer" class="container-fluid bg-body-secondary rounded border border-primary  m-1 p-1">
+        <div id="back_button_answer" class="bg-light rounded border border-secondary p-3 mt-1">
+          <button type="button" class="btn btn-primary" onclick="$('#help_questions').show();$('#help_answer').hide();$('#answer').empty();"><i class="bi bi-chevron-double-left">Back</i></button>  
+        </div>
+        <div id="answer" class="bg-light rounded border border-secondary p-3 mt-4">
+          
+        </div>
+        
+        <div id="did_this_help" class="bg-light rounded border border-secondary p-3 mt-4">
+          <div class="row mt-1 mb-1">
+            <span class="ms-2 p-1 fw-bolder">Did this help?</span>
+            <div class="btn-group" role="group"> 
+                <button type="button" class="btn btn-primary me-4" onclick='$("#help_questions").hide();$("#help_answer").hide();that_helped();'><i class="fa-solid fa-thumbs-up fa-flip-horizontal"></i></button>
+                <button type="button" class="btn btn-primary" onclick='$("#more_detail").show();$("#help_questions").hide();$("#help_answer").hide();'><i class="fa-solid fa-thumbs-down"></i></button>
+            </div>
+          </div>
+        </div>
+      </div> <!-- help_answer -->  
+
+      <div id="more_detail" class="container-fluid bg-body-secondary rounded border border-primary m-1 p-1">
+        <form>
+          <div id="back_button_more_detail" class="bg-light rounded border border-secondary p-3 mt-1">
+            <button type="button" class="btn btn-primary" onclick="$('#more_detail').hide();$('#help_questions').show();$('#help_answer').hide();$('#answer').empty();"><i class="bi bi-chevron-double-left">Back</i></button>
+          </div>
+          <fieldset>
+            <div class="mb-3">
+              <label for="question_not_answered_more_detail" class="form-label">Please provide more detail about the challenge you have encountered.</label>
+              <textarea class="form-control" id="question_not_answered_more_detail" rows="3"></textarea>
+            </div>
+            <div class="col-auto">
+              <button type="button" class="btn btn-primary mb-1" onclick="did_not_help()">Submit</button>
+            </div>          
+          </fieldset>
+        </form>
+      </div>
+
+
+    
+    
+        <div id="confirmation" class="container-fluid bg-body-secondary rounded border border-primary m-1 p-1">
+          <div id="back_button_answer" class="bg-light rounded border border-secondary p-3 mt-1">
+            <button type="button" class="btn btn-primary" onclick="$('#help_questions').show();$('#help_answer').hide();$('#jira_issuekey').empty();$('#answer').empty();$('#confirmation').hide();"><i class="bi bi-chevron-double-left">Back</i></button>  
+          </div>
+          <div id="jira_issuekey" class="bg-light rounded border border-secondary p-3 mt-4">
+            
+          </div>
+        </div>
+
+    </div> <!-- container -->  
+
+    <script>
+      $("#auth").hide();
+      $("#more_detail").hide();
+      $("#help_questions").hide();
+      $("#help_answer").hide();
+      $("#spinner").hide();
+      $("#confirmation").hide();
+    </script>  
+
+    <script>
+    (function () {
+    'use strict'
+    const forms = document.querySelectorAll('.requires-validation')
+    Array.from(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+    })()
+    </script>
+
+
+  </body>
+</html>
